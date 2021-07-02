@@ -130,6 +130,24 @@ export const useAuthLayoutStyles = makeStyles(theme => ({
   rightContent: {
     height: "100%",
     flexGrow: 1
+  },
+  form: {
+    alignItems: "flex-start",
+    height: "100%",
+    width: "100%",
+    padding: 24
+  },
+  formWrapper: {
+    flexGrow: 1,
+    [theme.breakpoints.up("lg")]: {
+      flexGrow: 0,
+      width: "60%",
+      maxWidth: 400
+    }
+  },
+  formFields: {
+    flexGrow: 1,
+    flexDirection: "column"
   }
 }));
 
