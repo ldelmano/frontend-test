@@ -8,11 +8,26 @@ import {
   Button,
   FormControl,
   TextField,
+  makeStyles,
 } from "@material-ui/core";
 import { login } from "./store/utils/thunkCreators";
+import AuthPagesLayout, { useAuthLayoutStyles } from "./layout/AuthPagesLayout";
+
+const useStyles = makeStyles({
+  root: {
+    width: "100%",
+    padding: 24,
+  },
+  form: {
+    flexGrow: 1,
+    flexDirection: "column"
+  }
+});
 
 const Login = (props) => {
   const history = useHistory();
+  const classes = useStyles();
+  const authClasses = useAuthLayoutStyles();
   const { user, login } = props;
 
   const handleLogin = async (event) => {
@@ -28,41 +43,48 @@ const Login = (props) => {
   }
 
   return (
-    <Grid container justify="center">
-      <Box>
-        <Grid container item>
-          <Typography>Need to register?</Typography>
-          <Button onClick={() => history.push("/register")}>Register</Button>
-        </Grid>
-        <form onSubmit={handleLogin}>
-          <Grid>
-            <Grid>
-              <FormControl margin="normal" required>
-                <TextField
-                  aria-label="username"
-                  label="Username"
-                  name="username"
-                  type="text"
-                />
-              </FormControl>
-            </Grid>
-            <FormControl margin="normal" required>
-              <TextField
-                label="password"
-                aria-label="password"
-                type="password"
-                name="password"
-              />
-            </FormControl>
-            <Grid>
-              <Button type="submit" variant="contained" size="large">
-                Login
-              </Button>
-            </Grid>
+    <AuthPagesLayout>
+      <Grid container justify="center">
+        <Box className={classes.root}>
+          <Grid container item alignItems="center" className={authClasses.headerAction}>
+            <Typography>Don’t have an account?</Typography>
+            <Button onClick={() => history.push("/register")}>Create account</Button>
           </Grid>
-        </form>
-      </Box>
-    </Grid>
+
+          <Typography variant="h2" className={authClasses.pageTitle}>Welcome back!</Typography>
+
+          <form onSubmit={handleLogin}>
+            <Grid container className={classes.form} spacing={2}>
+              <Grid item>
+                <FormControl margin="normal" required fullWidth>
+                  <TextField
+                    aria-label="username"
+                    label="Username"
+                    name="username"
+                    type="text"
+                  />
+                </FormControl>
+              </Grid>
+              <Grid item>  
+                <FormControl margin="normal" required fullWidth>
+                  <TextField
+                    label="Password"
+                    aria-label="password"
+                    type="password"
+                    name="password"
+                  />
+                </FormControl>
+              </Grid>
+              <Grid container justify="center">
+                <Button type="submit" className={authClasses.primaryBtn}>
+                  Login
+                </Button>
+              </Grid>
+            </Grid>
+          </form>
+        </Box>
+      </Grid>
+    </AuthPagesLayout>
   );
 };
 
