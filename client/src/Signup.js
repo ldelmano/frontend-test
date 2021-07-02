@@ -14,16 +14,26 @@ import {
 import { register } from "./store/utils/thunkCreators";
 import AuthPagesLayout, { useAuthLayoutStyles } from "./layout/AuthPagesLayout";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   root: {
+    alignItems: "flex-start",
+    height: "100%",
     width: "100%",
     padding: 24
   },
-  form: {
+  formWrapper: {
+    flexGrow: 1,
+    [theme.breakpoints.up("lg")]: {
+      flexGrow: 0,
+      width: "60%",
+      maxWidth: 400
+    }
+  },
+  formFields: {
     flexGrow: 1,
     flexDirection: "column"
-  }
-});
+  },
+}));
 
 const Login = (props) => {
   const history = useHistory();
@@ -54,17 +64,16 @@ const Login = (props) => {
 
   return (
     <AuthPagesLayout>
-      <Grid container justify="center">
-        <Box className={classes.root}>
-          <Grid container item alignItems="center" className={authClasses.headerAction}>
-            <Typography>Already have an account?</Typography>
-            <Button onClick={() => history.push("/login")}>Login</Button>
-          </Grid>
-
+      <Grid container justify="center" className={classes.root}>
+        <Grid container item alignItems="center" className={authClasses.headerAction}>
+          <Typography>Already have an account?</Typography>
+          <Button onClick={() => history.push("/login")}>Login</Button>
+        </Grid>
+        <Box className={classes.formWrapper}>
           <Typography variant="h2" className={authClasses.pageTitle}>Create an account.</Typography>
 
           <form onSubmit={handleRegister}>
-            <Grid container className={classes.form} spacing={2}>
+            <Grid container className={classes.formFields} spacing={2}>
               <Grid item>
                 <FormControl fullWidth>
                   <TextField
