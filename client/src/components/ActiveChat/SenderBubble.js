@@ -8,6 +8,9 @@ const useStyles = makeStyles(() => ({
     flexDirection: "column",
     alignItems: "flex-end"
   },
+  attachedImg: {
+    maxHeight: 120
+  },
   date: {
     fontSize: 11,
     color: "#BECCE2",
@@ -22,6 +25,7 @@ const useStyles = makeStyles(() => ({
     fontWeight: "bold"
   },
   bubble: {
+    overflow: "hidden",
     background: "#F4F6FA",
     borderRadius: "10px 10px 0 10px"
   }
@@ -29,13 +33,24 @@ const useStyles = makeStyles(() => ({
 
 const SenderBubble = (props) => {
   const classes = useStyles();
-  const { time, text } = props;
+  const { time, text, attachments } = props;
+  
   return (
     <Box className={classes.root}>
       <Typography className={classes.date}>{time}</Typography>
-      <Box className={classes.bubble}>
-        <Typography className={classes.text}>{text}</Typography>
-      </Box>
+      {attachments && !!attachments.length 
+        ? (
+          <Box className={classes.bubble}>
+            <img className={classes.attachedImg} src="https://res.cloudinary.com/dmlvthmqr/image/upload/v1607914467/messenger/thomas_kwzerk.png" />
+            <Typography className={classes.text}>{text}</Typography>
+          </Box>
+        )
+        : (
+          <Box className={classes.bubble}>
+            <Typography className={classes.text}>{text}</Typography>
+          </Box>
+        )
+      }
     </Box>
   );
 };
