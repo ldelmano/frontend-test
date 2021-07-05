@@ -34,6 +34,10 @@ class Input extends Component {
     };
   }
 
+  isEmptyMessage = () => {
+    return this.state.text.trim().length === 0;
+  }
+
   handleChange = (event) => {
     this.setState({
       text: event.target.value,
