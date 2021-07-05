@@ -35,7 +35,8 @@ class Input extends Component {
   }
 
   isEmptyMessage = () => {
-    return this.state.text.trim().length === 0;
+    return (this.state.text.trim().length === 0 && 
+           !this.state.attachments.length);
   }
 
   handleChange = (event) => {
@@ -47,15 +48,18 @@ class Input extends Component {
   handleSubmit = async (event) => {
     if (event) event.preventDefault();
 
-    // add sender user info if posting to a brand new convo, so that the other user will have access to username, profile pic, etc.
-    const reqBody = {
-      text: this.state.text,
-      recipientId: this.props.otherUser.id,
-      conversationId: this.props.conversationId,
-      sender: this.props.conversationId ? null : this.props.user,
-      attachments: this.state.attachments ? this.state.attachments : null,
-    };
-    await this.props.postMessage(reqBody);
+    if (!this.isEmptyMessage) {
+      // add sender user info if posting to a brand new convo, so that the other user will have access to username, profile pic, etc.
+      const reqBody = {
+        text: this.state.text,
+        recipientId: this.props.otherUser.id,
+        conversationId: this.props.conversationId,
+        sender: this.props.conversationId ? null : this.props.user,
+        attachments: this.state.attachments ? this.state.attachments : null,
+      };
+      await this.props.postMessage(reqBody);
+    }
+
     this.setState({
       text: "",
     });

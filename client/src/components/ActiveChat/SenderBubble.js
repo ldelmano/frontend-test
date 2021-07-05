@@ -1,15 +1,29 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Box, Typography } from "@material-ui/core";
+import { Box, Typography, Avatar } from "@material-ui/core";
 
 const useStyles = makeStyles(() => ({
   root: {
     display: "flex",
     flexDirection: "column",
-    alignItems: "flex-end"
+    alignItems: "flex-end",
+    marginBottom: 24
+  },
+  avatar: {
+    height: 30,
+    width: 30,
+    marginRight: 11,
+    marginTop: 6
   },
   attachedImg: {
-    maxHeight: 120
+    maxHeight: 120,
+    borderRadius: "10px 10px 0 10px"
+  },
+  images: {
+    display: "flex",
+    "& img + img": {
+      marginLeft: 16
+    }
   },
   date: {
     fontSize: 11,
@@ -25,7 +39,6 @@ const useStyles = makeStyles(() => ({
     fontWeight: "bold"
   },
   bubble: {
-    overflow: "hidden",
     background: "#F4F6FA",
     borderRadius: "10px 10px 0 10px"
   }
@@ -33,17 +46,25 @@ const useStyles = makeStyles(() => ({
 
 const SenderBubble = (props) => {
   const classes = useStyles();
-  const { time, text, attachments } = props;
+  const { time, text, attachments, user } = props;
   
   return (
     <Box className={classes.root}>
       <Typography className={classes.date}>{time}</Typography>
       {attachments && !!attachments.length 
         ? (
-          <Box className={classes.bubble}>
-            <img className={classes.attachedImg} src="https://res.cloudinary.com/dmlvthmqr/image/upload/v1607914467/messenger/thomas_kwzerk.png" />
-            <Typography className={classes.text}>{text}</Typography>
-          </Box>
+          <>
+            <Box className={classes.bubble}>
+              <Box className={classes.images}>
+                {attachments.map((image, index) => (
+                  <img src={image} alt={`Uploaded ${index}`} className={classes.attachedImg} />
+                ))}
+              </Box>
+              {!!text.length && <Typography className={classes.text}>{text}</Typography>}
+            </Box>
+
+            <Avatar alt={user.username} src={user.photoUrl} className={classes.avatar}></Avatar>
+          </>
         )
         : (
           <Box className={classes.bubble}>
